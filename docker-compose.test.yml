@@ -1,0 +1,68 @@
+version: "3.8"
+
+services:
+  # Test database
+  postgres-test:
+    image: postgres:16-alpine
+    container_name: nestjs-postgres-test
+    environment:
+      - POSTGRES_DB=nestjs_starter_test
+      - POSTGRES_USER=test_user
+      - POSTGRES_PASSWORD=test_password
+    ports:
+      - "5433:5432"
+    tmpfs:
+      - /var/lib/postgresql/data
+    networks:
+      - test-network
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U test_user -d nestjs_starter_test"]
+      interval: 5s
+      timeout: 3s
+      retries: 10
+      start_period: 10s
+
+  # Test API
+  api-test:
+    build:
+      context: .
+      target: development
+      dockerfile: Dockerfile
+    container_name: nestjs-api-test
+    environment:
+      - NODE_ENV=test
+      - PORT=3001
+      - HOST=0.0.0.0
+      - DB_HOST=postgres-test
+      - DB_PORT=5432
+      - DB_USERNAME=test_user
+      - DB_PASSWORD=test_password
+      - DB_NAME=nestjs_starter_test
+      - JWT_SECRET=test-jwt-secret-key-for-testing-purposes
+      - JWT_EXPIRES_IN=1h
+      - THROTTLE_TTL=60000
+      - THROTTLE_LIMIT=1000
+      - LOG_LEVEL=error
+      - LOG_FORMAT=json
+      - APP_NAME=NestJS Starter Kit Test
+      - APP_VERSION=1.0.0-test
+      - APP_DESCRIPTION=Test environment for NestJS starter kit
+    volumes:
+      - .:/usr/src/app
+      - /usr/src/app/node_modules
+    depends_on:
+      postgres-test:
+        condition: service_healthy
+    networks:
+      - test-network
+    command: |
+      sh -c "
+        echo 'Waiting for database to be ready...' &&
+        sleep 5 &&
+        npm run test:e2e &&
+        npm run test:cov
+      "
+
+networks:
+  test-network:
+    driver: bridge

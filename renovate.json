@@ -1,0 +1,69 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    "config:base",
+    "docker:enableMajor",
+    ":dependencyDashboard",
+    ":semanticCommits",
+    ":separatePatchReleases"
+  ],
+  "timezone": "UTC",
+  "schedule": ["before 6am on Monday"],
+  "labels": ["dependencies"],
+  "commitMessagePrefix": "chore(deps):",
+  "rangeStrategy": "bump",
+  "packageRules": [
+    {
+      "description": "Group NestJS packages",
+      "groupName": "NestJS packages",
+      "packagePatterns": ["^@nestjs/"],
+      "schedule": ["before 6am on Monday"]
+    },
+    {
+      "description": "Group TypeScript packages",
+      "groupName": "TypeScript packages",
+      "packagePatterns": ["^@types/", "typescript", "ts-"],
+      "schedule": ["before 6am on Monday"]
+    },
+    {
+      "description": "Group ESLint packages",
+      "groupName": "ESLint packages",
+      "packagePatterns": ["eslint", "^@typescript-eslint/"],
+      "schedule": ["before 6am on Monday"]
+    },
+    {
+      "description": "Group Jest packages",
+      "groupName": "Jest packages",
+      "packagePatterns": ["jest", "^@types/jest"],
+      "schedule": ["before 6am on Monday"]
+    },
+    {
+      "description": "Automerge patch and minor updates for development dependencies",
+      "matchDepTypes": ["devDependencies"],
+      "matchUpdateTypes": ["patch", "minor"],
+      "automerge": true
+    },
+    {
+      "description": "Automerge patch updates for production dependencies",
+      "matchDepTypes": ["dependencies"],
+      "matchUpdateTypes": ["patch"],
+      "automerge": true
+    },
+    {
+      "description": "Hold back major updates for critical packages",
+      "packageNames": ["node", "@nestjs/core", "typescript"],
+      "matchUpdateTypes": ["major"],
+      "enabled": false
+    }
+  ],
+  "vulnerabilityAlerts": {
+    "enabled": true,
+    "schedule": ["at any time"]
+  },
+  "osvVulnerabilityAlerts": true,
+  "prHourlyLimit": 2,
+  "prConcurrentLimit": 5,
+  "minimumReleaseAge": "3 days",
+  "platformAutomerge": true,
+  "platformAutomergeStrategy": "squash"
+}

@@ -1,0 +1,162 @@
+# NestJS API Starter Kit - Cursor AI Rules
+
+## 🎯 Project Overview
+This is a production-ready NestJS API starter kit with TypeScript, PostgreSQL, Redis, Docker support, and comprehensive tooling for modern API development.
+
+## 📋 Key Technologies & Architecture
+- **Framework**: NestJS v11.x with latest patterns
+- **Language**: TypeScript (strict mode)
+- **Database**: PostgreSQL with TypeORM
+- **Caching**: Redis (optional)
+- **Package Manager**: bun (preferred), npm, pnpm, or yarn supported
+- **Testing**: Jest with comprehensive test setup
+- **Validation**: class-validator and class-transformer
+- **Security**: Helmet, CORS, rate limiting with @nestjs/throttler
+- **Logging**: NestJS 11 built-in logger or Winston
+- **API Versioning**: URI-based versioning (/api/v1/)
+- **Health Checks**: @nestjs/terminus for database, memory, disk monitoring
+- **Docker**: Multi-stage builds with development and production targets
+
+## 🏗️ Project Structure
+```
+src/
+├── app.module.ts              # Root application module
+├── main.ts                    # Application bootstrap
+├── common/                    # Shared utilities and components
+│   ├── decorators/           # Custom decorators (throttle, etc.)
+│   ├── filters/              # Global exception filters
+│   ├── guards/               # Custom guards (throttler, etc.)
+│   ├── interceptors/         # Global interceptors (logging, etc.)
+│   ├── pipes/                # Custom validation pipes
+│   ├── types/                # TypeScript type definitions
+│   └── logger/               # Logger configuration
+├── config/                   # Configuration module and validation
+├── database/                 # Database configuration and migrations
+├── health/                   # Health check endpoints
+└── [modules]/               # Feature modules (controllers, services, entities)
+```
+
+## 💡 Development Guidelines
+
+### Code Style & Quality
+- Use TypeScript strict mode - no `any` types unless absolutely necessary
+- Follow NestJS conventions and decorators
+- Use dependency injection properly with proper scoping
+- Implement proper error handling with custom exceptions
+- Use class-validator for DTO validation
+- Follow RESTful API design principles
+- Use proper HTTP status codes
+
+### API Development
+- All endpoints must be versioned: `/api/v1/`
+- Use proper DTOs for request/response validation
+- Implement proper error responses with consistent structure
+- Use appropriate decorators: `@Controller()`, `@Get()`, `@Post()`, etc.
+- Implement rate limiting with custom `@ThrottleEndpoint` decorators
+- Add comprehensive OpenAPI/Swagger documentation (when enabled)
+
+### Database & TypeORM
+- Use repository pattern with proper service layer
+- Create proper entities with relationships
+- Use migrations for schema changes
+- Implement proper transaction handling
+- Use proper indexing for performance
+
+### Testing
+- Write unit tests for all services and controllers
+- Use Jest with the existing test configuration
+- Mock dependencies properly using Jest mocking
+- Write integration tests for critical paths
+- Maintain good test coverage
+
+### Security Best Practices
+- Use helmet for security headers
+- Implement proper CORS configuration
+- Use rate limiting appropriately
+- Validate all inputs with class-validator
+- Use environment variables for sensitive data
+- Implement proper authentication/authorization when needed
+
+### Configuration
+- Use the existing config module with Joi validation
+- Environment variables should be documented in `.env.example`
+- Use proper typing for configuration values
+- Implement configuration validation schemas
+
+### Logging
+- Use the configured logger (NestJS 11 built-in or Winston)
+- Log at appropriate levels: error, warn, info, debug, verbose
+- Include proper context in log messages
+- Use structured logging in production (JSON format)
+
+## 🔧 Development Commands
+- `bun install` - Install dependencies
+- `bun run start:dev` - Start development server
+- `bun run build` - Build for production
+- `bun run test` - Run unit tests
+- `bun run test:e2e` - Run end-to-end tests
+- `bun run lint` - Run ESLint
+- `bun run format` - Format code with Prettier
+- `bun run docker:up` - Start with Docker Compose
+- `bun run setup` - Run full project setup
+
+## 🐳 Docker & Deployment
+- Use the existing Dockerfile with multi-stage builds
+- Development: `docker compose up -d` for services
+- Production: Built images are optimized and secure
+- Environment variables are properly configured
+- Health checks are implemented for all services
+
+## 📝 Code Generation Preferences
+When creating new features:
+
+1. **Modules**: Generate proper NestJS modules with controllers, services, and DTOs
+2. **Controllers**: 
+   - Use proper decorators and versioning
+   - Implement comprehensive validation
+   - Return appropriate HTTP status codes
+   - Include proper error handling
+3. **Services**: 
+   - Use dependency injection
+   - Implement proper business logic
+   - Handle errors appropriately
+   - Use repositories for data access
+4. **DTOs**: 
+   - Use class-validator decorators
+   - Include proper typing
+   - Add OpenAPI decorators when applicable
+5. **Entities**: 
+   - Use TypeORM decorators properly
+   - Define relationships correctly
+   - Include proper indexing
+6. **Tests**: 
+   - Create comprehensive unit tests
+   - Mock dependencies properly
+   - Test both success and error cases
+
+## 🚨 Important Notes
+- The application runs on port 3001 by default (configurable via .env)
+- API endpoints use `/api/v1/` prefix due to versioning
+- Health endpoints are available at `/api/v1/health`
+- Database credentials are configured in .env file
+- Use bun as the preferred package manager but support others
+- Follow the existing patterns for consistency
+- Always check existing implementations before creating new patterns
+
+## 🔗 Integration Points
+- TypeORM entities should be registered in modules
+- All services should be properly injected and tested
+- Configuration should use the existing config module
+- Logging should use the configured logger instance
+- Error handling should use the global exception filter
+- Validation should use the global validation pipe
+
+## 🎯 When Suggesting Code
+- Always follow the existing patterns and structure
+- Use the configured tools and dependencies
+- Implement proper error handling
+- Include appropriate tests
+- Follow TypeScript best practices
+- Use the existing logger and configuration systems
+- Maintain consistency with the codebase style
+- Consider performance and security implications

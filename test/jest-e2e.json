@@ -1,0 +1,37 @@
+{
+  "displayName": "E2E Tests",
+  "moduleFileExtensions": ["js", "json", "ts"],
+  "rootDir": "..",
+  "testEnvironment": "node",
+  "testRegex": ".e2e-spec.ts$",
+  "transform": {
+    "^.+\\.(t|j)s$": "ts-jest"
+  },
+  "collectCoverageFrom": [
+    "src/**/*.{ts,js}",
+    "!src/**/*.d.ts",
+    "!src/**/*.interface.ts",
+    "!src/**/*.module.ts",
+    "!src/**/*.entity.ts",
+    "!src/**/*.config.ts",
+    "!src/main.ts",
+    "!src/database/data-source.ts",
+    "!src/database/migrations/**",
+    "!src/database/seeds/**"
+  ],
+  "coverageDirectory": "coverage-e2e",
+  "coverageReporters": ["text", "lcov", "html", "json"],
+  "roots": ["<rootDir>/test/e2e/"],
+  "moduleNameMapping": {
+    "^@/(.*)$": "<rootDir>/src/$1",
+    "^@/common/(.*)$": "<rootDir>/src/common/$1",
+    "^@/config/(.*)$": "<rootDir>/src/config/$1",
+    "^@/health/(.*)$": "<rootDir>/src/health/$1",
+    "^@/database/(.*)$": "<rootDir>/src/database/$1"
+  },
+  "setupFilesAfterEnv": ["<rootDir>/test/setup-e2e.ts"],
+  "clearMocks": true,
+  "resetMocks": true,
+  "restoreMocks": true,
+  "testTimeout": 30000
+}
