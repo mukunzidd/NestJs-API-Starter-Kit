@@ -103,11 +103,11 @@ RUN mkdir -p /usr/src/app/logs && chown nestjs:nodejs /usr/src/app/logs
 USER nestjs
 
 # Expose port
-EXPOSE 3000
+EXPOSE 3888
 
 # Health check
 HEALTHCHECK --interval=30s --timeout=3s --start-period=5s --retries=3 \
-  CMD curl -f http://localhost:3000/health/live || exit 1
+  CMD curl -f http://localhost:3888/api/v1/health/live || exit 1
 
 # Use dumb-init to handle signals properly
 ENTRYPOINT ["dumb-init", "--"]

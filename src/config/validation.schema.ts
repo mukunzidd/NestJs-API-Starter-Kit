@@ -3,12 +3,12 @@ import * as Joi from 'joi';
 export const validationSchema = Joi.object({
   // Application
   NODE_ENV: Joi.string().valid('development', 'production', 'test').default('development'),
-  PORT: Joi.number().port().default(3000),
+  PORT: Joi.number().port().default(3888),
   HOST: Joi.string().default('0.0.0.0'),
   API_PREFIX: Joi.string().default('api'),
 
   // CORS
-  CORS_ORIGINS: Joi.string().default('http://localhost:3000'),
+  CORS_ORIGINS: Joi.string().default('http://localhost:3888'),
 
   // Database
   DB_HOST: Joi.string().required(),

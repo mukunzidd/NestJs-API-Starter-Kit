@@ -90,7 +90,7 @@ check_docker_prerequisites() {
         fi
     }
     
-    check_port_availability 3000 "API Server"
+    check_port_availability 3888 "API Server"
     check_port_availability 5432 "PostgreSQL"
     check_port_availability 8080 "Adminer"
     check_port_availability 6379 "Redis"
@@ -190,7 +190,7 @@ start_docker_services() {
         
         while [ $attempt -le $max_attempts ]; do
             if [ "$service" = "api" ]; then
-                if curl -f http://localhost:$port/health/live &> /dev/null; then
+                if curl -f http://localhost:$port/api/v1/health/live &> /dev/null; then
                     log_success "$service is healthy"
                     return 0
                 fi
@@ -219,7 +219,7 @@ start_docker_services() {
     
     # Then check other services
     check_service_health "redis" 6379
-    check_service_health "api" 3000
+    check_service_health "api" 3888
     
     # Show running containers
     log_info "Running containers:"
@@ -263,7 +263,7 @@ test_docker_setup() {
     log_info "Testing API endpoints..."
     
     # Test health endpoint
-    if curl -f http://localhost:3000/health &> /dev/null; then
+    if curl -f http://localhost:3888/api/v1/health &> /dev/null; then
         log_success "Health endpoint is working"
     else
         log_error "Health endpoint is not responding"
@@ -271,7 +271,7 @@ test_docker_setup() {
     fi
     
     # Test info endpoint
-    if curl -f http://localhost:3000/health/info &> /dev/null; then
+    if curl -f http://localhost:3888/api/v1/health/info &> /dev/null; then
         log_success "Info endpoint is working"
     else
         log_warning "Info endpoint is not responding"
@@ -279,7 +279,7 @@ test_docker_setup() {
     
     # Test database connection through API
     log_info "Testing database connection through API..."
-    HEALTH_RESPONSE=$(curl -s http://localhost:3000/health)
+    HEALTH_RESPONSE=$(curl -s http://localhost:3888/api/v1/health)
     if echo "$HEALTH_RESPONSE" | grep -q '"status":"ok"'; then
         log_success "Database connection is working"
     else
@@ -298,9 +298,9 @@ show_docker_info() {
     log_info "Your Docker development environment is ready!"
     echo ""
     log_info "Available services:"
-    echo "  - 🚀 API Server: http://localhost:3000"
-    echo "  - 📋 Health Check: http://localhost:3000/health"
-    echo "  - ℹ️  API Info: http://localhost:3000/health/info"
+    echo "  - 🚀 API Server: http://localhost:3888"
+    echo "  - 📋 Health Check: http://localhost:3888/api/v1/health"
+    echo "  - ℹ️  API Info: http://localhost:3888/api/v1/health/info"
     echo "  - 🐘 PostgreSQL: localhost:5432"
     echo "  - 🔗 Adminer (DB UI): http://localhost:8080"
     echo "  - 🔴 Redis: localhost:6379"

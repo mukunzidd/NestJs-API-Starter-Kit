@@ -34,7 +34,7 @@ async function bootstrap() {
 
   // CORS
   app.enableCors({
-    origin: configService.get<string>('CORS_ORIGINS')?.split(',') || ['http://localhost:3000'],
+    origin: configService.get<string>('CORS_ORIGINS')?.split(',') || ['http://localhost:3888'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'HEAD', 'OPTIONS'],
     credentials: true,
   });
@@ -69,7 +69,7 @@ async function bootstrap() {
   // Graceful shutdown
   app.enableShutdownHooks();
 
-  const port = configService.get<number>('PORT') || 3000;
+  const port = configService.get<number>('PORT') || 3888;
   const host = configService.get<string>('HOST') || '0.0.0.0';
 
   await app.listen(port, host);

@@ -113,38 +113,70 @@ and modern development practices.
    yarn install     # yarn (classic)
    ```
 
-3. **Environment setup**
+3. **Start with Docker (Recommended)**
 
    ```bash
+   # Copy environment file
    cp .env.example .env
-   # Edit .env with your configuration
+   # Edit .env with your configuration if needed
+
+   # Start all services (API + Database + Redis)
+   docker compose up
    ```
 
-4. **Database setup (Docker)**
+   The API will be available at `http://localhost:3888`
+
+### Alternative: Local Development
+
+If you prefer running the API locally with containerized services:
+
+1. **Start only the database services**
 
    ```bash
-   docker compose up -d postgres
-   # Wait a moment for PostgreSQL to start, then run migrations
+   docker compose up -d postgres redis
+   ```
+
+2. **Run migrations**
+
+   ```bash
    npm run typeorm:migration:run  # (use your chosen package manager)
    ```
 
-5. **Start development server**
+3. **Start the API locally**
    ```bash
    npm run start:dev  # (use your chosen package manager)
    ```
 
-The API will be available at `http://localhost:3888` (or the port configured in
-your `.env` file)
+### Development Tools
 
-### Docker Development
+For additional development tools like Adminer (database management UI):
 
-For a complete containerized development environment:
+```bash
+# Start with development tools
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+# Or with profiles
+docker compose --profile dev-tools up
+```
+
+This adds:
+
+- **pgAdmin** at `http://localhost:8080` - PostgreSQL management interface
+  - Login: `admin@localhost.com` / `admin`
+
+### Docker Management
 
 ```bash
 # Start all services
 docker compose up
 
-# Or build and start
+# Start services in background
+docker compose up -d
+
+# Start with development tools (pgAdmin)
+docker compose -f docker-compose.yml -f docker-compose.dev.yml up
+
+# Rebuild and start
 docker compose up --build
 
 # View logs
@@ -152,6 +184,9 @@ docker compose logs -f api
 
 # Stop services
 docker compose down
+
+# Stop and remove volumes
+docker compose down -v
 ```
 
 ## Available Scripts
@@ -295,7 +330,7 @@ documentation.
 Key variables:
 
 - `NODE_ENV` - Environment (development/production/test)
-- `PORT` - Server port (default: 3000)
+- `PORT` - Server port (default: 3888)
 - `DB_HOST`, `DB_PORT`, `DB_USERNAME`, `DB_PASSWORD`, `DB_NAME` - Database
   configuration
 - `JWT_SECRET` - JWT signing secret

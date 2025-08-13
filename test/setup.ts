@@ -53,7 +53,7 @@ global.testUtils = {
     get: jest.fn((key: string) => {
       const defaultConfig = {
         NODE_ENV: 'test',
-        PORT: 3000,
+        PORT: 3888,
         HOST: '0.0.0.0',
         'app.name': 'Test App',
         'app.version': '1.0.0',
