@@ -143,6 +143,7 @@ If you prefer running the API locally with containerized services:
    ```
 
 3. **Start the API locally**
+
    ```bash
    npm run start:dev  # (use your chosen package manager)
    ```
@@ -260,10 +261,9 @@ The API includes comprehensive health check endpoints:
 
 All API endpoints are versioned using URI versioning:
 
-```
-/api/v1/endpoint
-/api/v2/endpoint
-```
+/```text /api/v1/endpoint /api/v2/endpoint
+
+````
 
 ### Response Format
 
@@ -276,7 +276,7 @@ All API responses follow a consistent format:
   "message": "Success message",
   "timestamp": "2024-01-01T00:00:00Z"
 }
-```
+````
 
 Error responses:
 
@@ -294,7 +294,7 @@ Error responses:
 
 ## Project Structure
 
-```
+```text
 nestjs-api-starter-kit/
 ├── src/                          # Source code
 │   ├── app.module.ts            # Root application module
