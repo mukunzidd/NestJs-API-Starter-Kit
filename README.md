@@ -133,7 +133,8 @@ and modern development practices.
    npm run start:dev  # (use your chosen package manager)
    ```
 
-The API will be available at `http://localhost:3000`
+The API will be available at `http://localhost:3888` (or the port configured in
+your `.env` file)
 
 ### Docker Development
 
@@ -216,9 +217,9 @@ npm run docker:test        # Run tests in Docker environment
 
 The API includes comprehensive health check endpoints:
 
-- `GET /health/live` - Liveness probe (basic server health)
-- `GET /health/ready` - Readiness probe (includes database connectivity)
-- `GET /health` - Detailed health status
+- `GET /api/v1/health/live` - Liveness probe (basic server health)
+- `GET /api/v1/health/ready` - Readiness probe (includes database connectivity)
+- `GET /api/v1/health` - Detailed health status
 
 ### API Versioning
 
